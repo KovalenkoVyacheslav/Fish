@@ -1,5 +1,22 @@
-public class StartClass {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class StartClass  extends Application{
+
     public static void main(String[] args) {
-        System.out.println("xx");
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/FXMLMainForm.fxml"));
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("FishingGame");
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 }
