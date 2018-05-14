@@ -64,10 +64,15 @@ public class FXMLMainFormController implements Initializable {
 
         ObservableList<Node> nodes = gridPaneTop.getChildren();
         for(Node child : nodes) {
-            child.setOnMouseClicked((EventHandler) event -> {
+            child.setOnMouseClicked((EventHandler) (Event event) -> {
                 columnIndex = GridPane.getColumnIndex(child);
-                System.out.println(columnIndex);
-//                if(GridPane.getColumnIndex(child) == 0)
+
+                gridPaneBot.getChildren().clear();
+                File f = new File("src/main/resources/image/Man.png");
+                Image img = new Image(file0.toURI().toString());
+                ImageView imgv = new ImageView();
+                imgv.setImage(img);
+                gridPaneBot.add(imgv,columnIndex, 1);
 
             });
         }
