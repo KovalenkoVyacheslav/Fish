@@ -58,6 +58,7 @@ public class FXMLMainFormController implements Initializable {
 
         Image[] im = new Image[]{image, image1, image2};
         ArrayList<ImageView> iv = new ArrayList<>();
+        gridPaneTop.setAlignment(Pos.CENTER);
 
         for(int i = 0; i < 2; i++) {
             for(int j = 0; j < gridPaneTop.getColumnConstraints().size(); j++) {
