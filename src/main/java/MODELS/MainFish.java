@@ -2,6 +2,7 @@ package MODELS;
 
 import MODELS.ENUMS.TypeFish;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public abstract class MainFish {
     private Image imageFish;

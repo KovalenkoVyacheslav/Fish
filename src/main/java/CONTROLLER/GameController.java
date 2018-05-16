@@ -1,5 +1,10 @@
 package CONTROLLER;
 
+import MODELS.ENUMS.TypeFish;
+import MODELS.LargeFish;
+import MODELS.MainFish;
+import MODELS.MiddleFish;
+import MODELS.SmallFish;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -13,6 +18,28 @@ import java.util.Random;
 
 public class GameController {
 
+    ArrayList<MainFish> fishes;
+
+public GameController()
+{
+    MainFish Lfish = new LargeFish(getView("src/main/resources/image/large2.png"), TypeFish.LARGE);
+    MainFish Mfish = new MiddleFish(getView("src/main/resources/image/middle2.png"), TypeFish.MIDDLE);
+    MainFish Sfish = new SmallFish(getView("src/main/resources/image/small2.png"), TypeFish.SMALL);
+
+    fishes = new ArrayList<>();
+    fishes.add(Lfish);
+    fishes.add(Mfish);
+    fishes.add(Sfish);
+}
+
+private Image getView (String path)
+{
+    File file = new File(path);
+    Image image = new Image(file.toURI().toString());
+    return image;
+}
+
+
     public ImageView GetFaceImage() {
         File file0 = new File("src/main/resources/image/Man.png");
         Image image0 = new Image(file0.toURI().toString());
@@ -22,33 +49,17 @@ public class GameController {
     }
 
     public void StartGame(GridPane gridPaneTop) {
-        File file = new File("src/main/resources/image/large2.png");
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
-
-        File file1 = new File("src/main/resources/image/middle2.png");
-        Image image1 = new Image(file1.toURI().toString());
-        ImageView imageView1 = new ImageView();
-        imageView1.setImage(image1);
-
-        File file2 = new File("src/main/resources/image/small2.png");
-        Image image2 = new Image(file2.toURI().toString());
-        ImageView imageView2 = new ImageView();
-        imageView2.setImage(image2);
-
-        Image[] im = new Image[]{image, image1, image2};
-        ArrayList<ImageView> iv = new ArrayList<>();
-        gridPaneTop.setAlignment(Pos.CENTER);
 
         for(int i = 0; i < 2; i++) {
             for(int j = 0; j < gridPaneTop.getColumnConstraints().size(); j++) {
-                iv.add(new ImageView(im[new Random().nextInt(3)]) );
-                iv.get(iv.size() - 1).setFitWidth(60);
-                iv.get(iv.size() - 1).setFitHeight(30);
-                gridPaneTop.add(iv.get(iv.size() - 1), j, i);
-                GridPane.setValignment(iv.get(iv.size() - 1), VPos.CENTER);
-                GridPane.setHalignment(iv.get(iv.size() - 1), HPos.CENTER);
+                ImageView fish=new ImageView();
+                fish.setImage(fishes.get(new Random().nextInt(3)).getImageFish());
+
+                fish.setFitWidth(60);
+                fish.setFitHeight(30);
+                gridPaneTop.add(fish, j, i);
+                GridPane.setValignment(fish, VPos.CENTER);
+                GridPane.setHalignment(fish, HPos.CENTER);
             }
         }
 

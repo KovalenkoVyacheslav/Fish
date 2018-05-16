@@ -2,6 +2,7 @@ package MODELS;
 
 import MODELS.ENUMS.TypeFish;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class MiddleFish extends MainFish {
     private Integer counter;
@@ -10,9 +11,8 @@ public class MiddleFish extends MainFish {
         super();
     }
 
-    public MiddleFish(Image imageFish, TypeFish typeFish, Integer counter) {
+    public MiddleFish(Image imageFish, TypeFish typeFish) {
         super(imageFish, typeFish);
-        this.counter = counter;
     }
 
     public Integer getCounter() {
