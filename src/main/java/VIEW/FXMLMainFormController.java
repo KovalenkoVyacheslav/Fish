@@ -10,9 +10,11 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import java.net.URL;
+import java.time.Period;
 import java.util.ResourceBundle;
 
 public class FXMLMainFormController implements Initializable {
@@ -42,15 +44,19 @@ public class FXMLMainFormController implements Initializable {
                 System.out.println(columnIndex);
                 //RemoveFishByColumn(columnIndex);
                 MoveFace();
-//                ImageView imgView = (ImageView)(child);
-//                gridPaneTop.getChildren().remove(imgView);
+                ImageView imgView = (ImageView)(child);
+                //System.out.println(child.getId());
+                GameController.addHeaderRow(gridPaneTop);
             });
         }
     }
 
-//    private void RemoveFishByColumn(Integer column) {
-//
-//    }
+
+
+
+
+
+
 
     private void MoveFace() {
         gridPaneBot.getChildren().clear();

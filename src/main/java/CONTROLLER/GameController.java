@@ -8,17 +8,23 @@ import MODELS.SmallFish;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.io.File;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameController {
 
     ArrayList<MainFish> fishes;
+    public static Timer t;
 
 public GameController()
 {
@@ -30,6 +36,7 @@ public GameController()
     fishes.add(Lfish);
     fishes.add(Mfish);
     fishes.add(Sfish);
+    t=new Timer();
 }
 
 private Image getView (String path)
@@ -48,21 +55,63 @@ private Image getView (String path)
         return imageView0;
     }
 
-    public void StartGame(GridPane gridPaneTop) {
 
-        for(int i = 0; i < 2; i++) {
-            for(int j = 0; j < gridPaneTop.getColumnConstraints().size(); j++) {
-                ImageView fish=new ImageView();
-                fish.setImage(fishes.get(new Random().nextInt(3)).getImageFish());
+//   public static void Period(GridPane gridPane) {
+//       t.scheduleAtFixedRate(new TimerTask() {
+//           @Override
+//           public void run() {
+//                addHeaderRow(gridPane);
+//           }
+//       }, 0, 5*1000);
+//   }
 
-                fish.setFitWidth(60);
-                fish.setFitHeight(30);
-                gridPaneTop.add(fish, j, i);
-                GridPane.setValignment(fish, VPos.CENTER);
-                GridPane.setHalignment(fish, HPos.CENTER);
+        public static void addHeaderRow(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
+            GridPane.setRowIndex(node, GridPane.getRowIndex(node)+1);
+            if(GridPane.getRowIndex(node)==7)
+                gridPane.getChildren().remove(node);
+        }
+        Thread s = new Thread(() -> {
+            for (int colIndex = 0; colIndex < 6; colIndex++) {
+                Label header = new Label("Header " + (colIndex + 1));
+                header.setStyle("-fx-background-color: lightgray;");
+                header.setMaxWidth(Double.POSITIVE_INFINITY);
+                gridPane.add(header, colIndex, 0);
+            }
+        });
+            try {
+                s.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
-        gridPaneTop.setGridLinesVisible(true);
+
+
+    public void StartGame(GridPane gridPaneTop) {
+
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < gridPaneTop.getColumnConstraints().size(); j++) {
+                if (i<2) {
+                    ImageView fish = new ImageView();
+                    fish.setImage(fishes.get(new Random().nextInt(3)).getImageFish());
+                    fish.setId(i + " " + j);
+                    fish.setFitWidth(60);
+                    fish.setFitHeight(30);
+                    gridPaneTop.add(fish, j, i);
+                    GridPane.setValignment(fish, VPos.CENTER);
+                    GridPane.setHalignment(fish, HPos.CENTER);
+                }
+                else
+                {
+                    Label header = new Label("Header "+(j));
+                    header.setStyle("-fx-background-color: lightgray;");
+                    header.setMaxWidth(Double.POSITIVE_INFINITY);
+                    gridPaneTop.add(header, j, i);
+                }
+            }
+        }
+
+
     }
 }
