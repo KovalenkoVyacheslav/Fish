@@ -4,6 +4,8 @@ import MODELS.ENUMS.TypeFish;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
+
 public abstract class MainFish {
     private Image imageFish;
     private TypeFish typeFish;
@@ -11,13 +13,13 @@ public abstract class MainFish {
     public MainFish() {
     }
 
-    public MainFish(Image imageFish, TypeFish typeFish) {
-        this.imageFish = imageFish;
+    public MainFish(String path, TypeFish typeFish) {
+        this.imageFish = getView(path);
         this.typeFish = typeFish;
     }
 
-    public Image getImageFish() {
-        return imageFish;
+    public ImageView getImageViewFish() {
+        return new ImageView(imageFish);
     }
 
     public void setImageFish(Image imageFish) {
@@ -31,4 +33,10 @@ public abstract class MainFish {
     public void setTypeFish(TypeFish typeFish) {
         this.typeFish = typeFish;
     }
+
+    public static Image getView (String path) {
+        File file = new File(path);
+        Image image = new Image(file.toURI().toString());
+    return image;
+}
 }

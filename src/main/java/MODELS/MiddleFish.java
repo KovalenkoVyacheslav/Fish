@@ -8,12 +8,12 @@ public class MiddleFish extends MainFish {
     private Integer counter;
 
     public MiddleFish() {
-        super();
+        super("src/main/resources/image/middle2.png", TypeFish.MIDDLE);
     }
 
-    public MiddleFish(Image imageFish, TypeFish typeFish) {
-        super(imageFish, typeFish);
-    }
+//    public MiddleFish(Image imageFish, TypeFish typeFish) {
+//        super(imageFish, typeFish);
+//    }
 
     public Integer getCounter() {
         return counter;
