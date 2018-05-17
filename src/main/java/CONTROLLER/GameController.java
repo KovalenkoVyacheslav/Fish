@@ -37,6 +37,7 @@ public class GameController {
     };
 
     Integer columnIndex;
+    MainFish eatenFish = null;
 
     public GameController() {
 //    MainFish Lfish = new LargeFish(getView("src/main/resources/image/large2.png"), TypeFish.LARGE);
@@ -134,6 +135,7 @@ public class GameController {
 
     public void setColumnIndex(Integer columnInde) {
         this.columnIndex = columnInde;
+        ChangeSea();
     }
 
     public int FindFish() {
@@ -143,5 +145,33 @@ public class GameController {
             }
         }
         return -1;
+    }
+
+    public void ChangeSea() {
+        int index = FindFish();
+        if(index == -1) {
+            return;
+        }
+        else {
+            if(eatenFish == null) {
+                eatenFish = sea[index][columnIndex];
+                sea[index][columnIndex] = null;
+            }
+            else {
+                MainFish temp = sea[index][columnIndex];
+
+                if(eatenFish.getTypeFish() == temp.getTypeFish() ||
+                        TypeFish.valueOf(eatenFish.getTypeFish().toString()).ordinal() >
+                                TypeFish.valueOf(temp.getTypeFish().toString()).ordinal())
+                    return;
+                else
+                    if(eatenFish.getTypeFish().ordinal() == 0 && temp.getTypeFish().ordinal() == 1) {
+                        MiddleFish fish = (MiddleFish) temp;
+                        fish.setCounter(fish.getCounter() + 1);
+                        fish.ChangeFishFace();
+                        sea[index][columnIndex] = fish;
+                    }
+            }
+        }
     }
 }

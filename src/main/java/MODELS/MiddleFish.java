@@ -9,11 +9,13 @@ public class MiddleFish extends MainFish {
 
     public MiddleFish() {
         super("src/main/resources/image/middle2.png", TypeFish.MIDDLE);
+        counter = 0;
     }
 
-//    public MiddleFish(Image imageFish, TypeFish typeFish) {
-//        super(imageFish, typeFish);
-//    }
+    public MiddleFish(String path, TypeFish typeFish) {
+        super(path, typeFish);
+        counter = 0;
+    }
 
     public Integer getCounter() {
         return counter;
@@ -21,5 +23,11 @@ public class MiddleFish extends MainFish {
 
     public void setCounter(Integer counter) {
         this.counter = counter;
+    }
+
+    public void ChangeFishFace() {
+        if(counter == 1) {
+            this.getImageViewFish().setRotate(this.getImageViewFish().getRotate() + 90);
+        }
     }
 }

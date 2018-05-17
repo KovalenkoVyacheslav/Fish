@@ -38,5 +38,5 @@ public abstract class MainFish {
         File file = new File(path);
         Image image = new Image(file.toURI().toString());
     return image;
-}
+    }
 }
