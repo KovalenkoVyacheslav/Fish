@@ -2,6 +2,7 @@ package VIEW;
 
 import CONTROLLER.GameController;
 import MODELS.MainFish;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -19,11 +20,14 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.time.Period;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FXMLMainFormController implements Initializable {
 
     Integer columnIndex;
     GameController game;
+    Timer time = new Timer();
 
     @FXML
     private GridPane gridPaneTop;
@@ -39,6 +43,24 @@ public class FXMLMainFormController implements Initializable {
         game = new GameController();
         ReWriteForm();
         ChangeOnMouseClicked();
+
+
+//        time.schedule(new TimerTask() {
+//            @Override
+//            public void run() { //ПЕРЕЗАГРУЖАЕМ МЕТОД RUN В КОТОРОМ ДЕЛАЕТЕ ТО ЧТО ВАМ НАДО
+//
+//                        game.addNewWave();
+//                        ReWriteForm();
+//                    //time.cancel();
+//                   // return;
+//                }
+//        }, 10000, 10000); //(4000 - ПОДОЖДАТЬ ПЕРЕД НАЧАЛОМ В МИЛИСЕК, ПОВТОРЯТСЯ 4 СЕКУНДЫ (1 СЕК = 1000 МИЛИСЕК))
+//
+
+
+
+
+
     }
 
     private Boolean ReWriteForm() {
@@ -65,8 +87,8 @@ public class FXMLMainFormController implements Initializable {
             child.setOnMouseClicked((EventHandler) (Event event) -> {
                 columnIndex = GridPane.getColumnIndex(child);
                 game.setColumnIndex(columnIndex);
-                if(ReWriteForm())
-                    ChangeOnMouseClicked();
+                ReWriteForm();
+                ChangeOnMouseClicked();
             });
         }
     }

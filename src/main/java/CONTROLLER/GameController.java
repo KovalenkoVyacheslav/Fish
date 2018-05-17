@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.File;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -25,29 +26,89 @@ public class GameController {
     Integer columnIndex;
     MainFish eatenFish = null;
 
-    MainFish[][] sea = new MainFish[][]{
-        {new SmallFish(), new SmallFish(),new MiddleFish() , new MiddleFish(), null, new LargeFish()},
-        {null, null,            null, null,             null, new LargeFish()},
-        {null, null,            null, null,             null, null},
-        {null, null,            null, null,             null, null},
-        {null, null,            null, null,             null, null},
-        {null, null,            null, null,             null, null},
-        {null, null,            null, null,             null, null},
-        {null, null,            null, null,             null, null}
-    };
+    MainFish[][] sea;
 
+//            = new MainFish[][]{
+//        {new SmallFish(), new SmallFish(),new MiddleFish() , new MiddleFish(), null, new LargeFish()},
+//        {null, null,            null, null,             null, new LargeFish()},
+//        {null, null,            null, null,             null, null},
+//        {null, null,            null, null,             null, null},
+//        {null, null,            null, null,             null, null},
+//        {null, null,            null, null,             null, null},
+//        {null, null,            null, null,             null, null},
+//        {null, null,            null, null,             null, null}
+ //   };
+
+
+    public void addNewWave ()
+    {
+        MainFish [] [] newSea = new MainFish[8][6];
+
+        for(int i=1;i<8;i++)
+        {
+            for (int j = 0; j < 6; j++)
+            {
+                newSea[i][j] = sea[i-1][j];
+            }
+        }
+        MainFish[] fishes = new MainFish[6];
+
+        for(int i=0;i<6;i++)
+        {
+            if(i<2)
+                fishes[i] = new SmallFish();
+            else if (i>=2 && i<4)
+                fishes[i] = new MiddleFish();
+            else if (i>=6)
+                fishes[i] = new LargeFish();
+        }
+
+        for(int i = 0; i< 6; i++)
+        {
+            newSea[0][i] = fishes[new Random().nextInt(fishes.length)];
+        }
+        this.sea = newSea;
+    }
 
 
     public GameController() {
+        sea = CreateSea();
     }
 
     public MainFish[][] getOurSea() {return  sea;}
 
 
+    public MainFish[][] CreateSea()
+    {
+        MainFish[][] field = new MainFish[8][6];
+        MainFish[] fishes = new MainFish[12];
 
-    public Integer getColumnIndex() {
-        return columnIndex;
+        for(int i=0;i<12;i++)
+        {
+            if(i<4)
+                fishes[i] = new SmallFish();
+            else if (i>=4 && i<8)
+                fishes[i] = new MiddleFish();
+            else if (i>=8)
+                fishes[i] = new LargeFish();
+
+        }
+
+        for(int i=0;i<8;i++)
+        {
+            for(int j=0;j<6;j++)
+            {
+                if(i<2)
+                {
+                    field[i][j] = fishes[new Random().nextInt(fishes.length)];
+                }
+                else
+                    field[i][j] = null;
+            }
+        }
+        return field;
     }
+
 
     public void setColumnIndex(Integer columnInde) {
         this.columnIndex = columnInde;
@@ -81,31 +142,30 @@ public class GameController {
                                 TypeFish.valueOf(temp.getTypeFish().toString()).ordinal())
                     return;
                 else
-                    if(eatenFish.getTypeFish().ordinal() == 0 && temp.getTypeFish().ordinal() == 1)
+                    if(eatenFish.getTypeFish().ordinal() == 0 && temp.getTypeFish().ordinal() == 1 )
                     {
-                        MiddleFish fish = (MiddleFish) temp;
-                        fish.setCounter(fish.getCounter() + 1);
-                        if(fish.getCounter()==2) {
+                        ((MiddleFish)temp).setCounter(((MiddleFish)temp).getCounter() + 1);
+                        if(((MiddleFish)temp).getCounter()==2) {
                             sea[index][columnIndex] = null;
                         }
                         else {
-                            fish.ChangeFishFace();
-                            sea[index][columnIndex] = fish;
+                            ((MiddleFish)temp).ChangeFishFace();
+                            sea[index][columnIndex] = temp;
                         }
                         eatenFish = null;
                     }
                     else
                     if(eatenFish.getTypeFish().ordinal() == 1 && temp.getTypeFish().ordinal() == 2)
                     {
-                        LargeFish fish = (LargeFish) temp;
-                        fish.setCounter(fish.getCounter() + 1);
+
+                        ((LargeFish) temp).setCounter(((LargeFish) temp).getCounter() + 1);
                         MiddleFish mid = (MiddleFish) eatenFish;
-                        if (fish.getCounter() == 2 || mid.getCounter()==1)
+                        if (((LargeFish) temp).getCounter() == 2 || mid.getCounter()==1)
                         {
                             sea[index][columnIndex] = null;
                         } else {
-                            fish.ChangeFishFace();
-                            sea[index][columnIndex] = fish;
+                            ((LargeFish) temp).ChangeFishFace();
+                            sea[index][columnIndex] = temp;
                         }
                         eatenFish = null;
                     }

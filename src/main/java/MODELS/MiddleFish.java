@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MiddleFish extends MainFish {
-    private Integer counter;
+    private  Integer counter;
 
     public MiddleFish() {
         super("src/main/resources/image/middle2.png", TypeFish.MIDDLE);
