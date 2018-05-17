@@ -10,7 +10,11 @@ public class LargeFish extends MiddleFish {
         super("src/main/resources/image/large2.png", TypeFish.LARGE);
     }
 
-//    public LargeFish(Image imageFish, TypeFish typeFish) {
-//        super(imageFish, typeFish);
-//    }
+
+    @Override
+    public void ChangeFishFace() {
+        if (getCounter() == 1) {
+            this.setImageFish(MainFish.getView("src/main/resources/image/EatenBig.jpg"));
+        }
+    }
 }

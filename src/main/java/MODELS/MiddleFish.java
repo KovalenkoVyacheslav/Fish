@@ -27,7 +27,7 @@ public class MiddleFish extends MainFish {
 
     public void ChangeFishFace() {
         if(counter == 1) {
-            this.getImageViewFish().setRotate(this.getImageViewFish().getRotate() + 90);
+            this.setImageFish(MainFish.getView("src/main/resources/image/EatenMid.jpg"));
         }
     }
 }
