@@ -26,6 +26,9 @@ public class GameController {
     Integer columnIndex;
     MainFish eatenFish = null;
 
+    private MainFish currentFish; //   яку ловимо
+    private MainFish nextFish; // кормити
+
     MainFish[][] sea;
 
 //            = new MainFish[][]{
@@ -40,10 +43,10 @@ public class GameController {
  //   };
 
 
-    public ImageView GetFaceImage()
-    {
-        return new ImageView(MainFish.getView("src/main/resources/image/Man.png"));
-    }
+//    public ImageView GetFaceImage()
+//    {
+//        return new ImageView(MainFish.getView("src/main/resources/image/Man.png"));
+//    }
 
 
     public void addNewWave ()
@@ -118,7 +121,8 @@ public class GameController {
 
     public void setColumnIndex(Integer columnInde) {
         this.columnIndex = columnInde;
-        ChangeSea();
+        //ChangeSea();
+        ChangeSeaV2();
     }
 
     public int FindFish() {
@@ -129,6 +133,7 @@ public class GameController {
         }
         return -1;
     }
+
 
     public void ChangeSea() {
         int index = FindFish();
@@ -155,7 +160,8 @@ public class GameController {
                             sea[index][columnIndex] = null;
                         }
                         else {
-                            ((MiddleFish)temp).ChangeFishFace();
+                            //((MiddleFish)temp).ChangeFishFace();
+                            temp.setT(temp.getT().toUpperCase());
                             sea[index][columnIndex] = temp;
                         }
                         eatenFish = null;
@@ -170,12 +176,64 @@ public class GameController {
                         {
                             sea[index][columnIndex] = null;
                         } else {
-                            ((LargeFish) temp).ChangeFishFace();
+                            //((LargeFish) temp).ChangeFishFace();
+                            temp.setT(temp.getT().toUpperCase());
                             sea[index][columnIndex] = temp;
                         }
                         eatenFish = null;
                     }
             }
         }
+    }
+
+    public void printSea() {
+        for(int i=0;i<8;i++) {
+            for(int j=0;j<6;j++) {
+                if(sea[i][j] == null)
+                    System.out.print(" | " + ' ' + " |");
+                else
+                    System.out.print(" | " + sea[i][j].hashCode() + " |");
+            }
+            System.out.println();
+        }
+    }
+
+    private boolean SetFish(int index) {//індекс рядка
+        if(currentFish == null && index != -1) {
+            currentFish = sea[index][columnIndex];
+            sea[index][columnIndex] = null;
+            nextFish = null;
+            return false;
+        }
+        if(index == -1) {
+            //sea[index][columnIndex] = null;
+            sea[index + 1][columnIndex] = currentFish;
+            currentFish = null;
+            nextFish = null;
+            return false;
+        }
+        if(currentFish != null) {
+            nextFish = sea[index][columnIndex];
+            return true;
+        }
+        return false;
+    }
+
+    public void ChangeSeaV2() {
+
+        int index = FindFish();
+        if (!SetFish(index)) return;
+
+         if (nextFish.getTypeFish().ordinal() == 1) {
+            if (((MiddleFish) nextFish).eatFish(currentFish))
+                sea[index][columnIndex] = null;
+        } else if (nextFish.getTypeFish().ordinal() == 2) {
+            if (((LargeFish) nextFish).eatFish(currentFish))
+                sea[index][columnIndex] = null;
+        }
+        else
+            sea[index + 1][columnIndex] = currentFish;
+        currentFish = null;
+        nextFish = null;
     }
 }

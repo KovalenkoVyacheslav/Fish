@@ -3,17 +3,16 @@ package MODELS;
 import MODELS.ENUMS.TypeFish;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 public class MiddleFish extends MainFish {
-    private  Integer counter;
+    private Integer counter;
 
     public MiddleFish() {
-        super("src/main/resources/image/middle2.png", TypeFish.MIDDLE);
+        super("src/main/resources/image/middle2.png", TypeFish.MIDDLE, "m");
         counter = 0;
     }
 
-    public MiddleFish(String path, TypeFish typeFish) {
-        super(path, typeFish);
+    public MiddleFish(String path, TypeFish typeFish, String type) {
+        super(path, typeFish, type);
         counter = 0;
     }
 
@@ -25,9 +24,18 @@ public class MiddleFish extends MainFish {
         this.counter = counter;
     }
 
-    public void ChangeFishFace() {
-        if(counter == 1) {
-            this.setImageFish(MainFish.getView("src/main/resources/image/EatenMid.jpg"));
+    public boolean eatFish(MainFish toEat) {
+        if(toEat.getTypeFish().ordinal() == 0) {
+            counter++;
+            setT(getT().toUpperCase());
         }
+        if (counter == 2)
+            return true;
+        return false;
     }
+//    public void ChangeFishFace() {
+//        if(counter == 1) {
+//            this.setImageFish(MainFish.getView("src/main/resources/image/EatenMid.jpg"));
+//        }
+//    }
 }

@@ -42,12 +42,12 @@ public class FXMLMainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image img = MainFish.getView("src/main/resources/image/back.jpg");
+        //Image img = MainFish.getView("src/main/resources/image/back.jpg");
 
-        BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(600,400,
-                false,false, false,false));
+//        BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(600,400,
+//                false,false, false,false));
 
-        Split_main.setBackground(new Background(myBI));
+//        Split_main.setBackground(new Background(myBI));
 
         //Split_main.setBackground(Background.);
 //        gridPaneTop.setAlignment(Pos.CENTER);
@@ -81,13 +81,13 @@ public class FXMLMainFormController implements Initializable {
             ImageView bg;
             for (int i = 0; i < gridPaneTop.getRowConstraints().size(); i++) {
                 for (int j = 0; j < gridPaneTop.getColumnConstraints().size(); j++) {
-                    if (game.getOurSea()[i][j] == null)
-                        bg = new ImageView(MainFish.getView("src/main/resources/image/empty.png"));
-                    else
-                        bg = game.getOurSea()[i][j].getImageViewFish();
-                    bg.setFitWidth(80);
-                    bg.setFitHeight(30);
-                    gridPaneTop.add(bg, j, i);
+                    //if (game.getOurSea()[i][j] == null)
+                        //bg = new ImageView(MainFish.getView("src/main/resources/image/empty.png"));
+                    //else
+                        //bg = game.getOurSea()[i][j].getImageViewFish();
+                    //bg.setFitWidth(80);
+                    //bg.setFitHeight(30);
+                    //gridPaneTop.add(bg, j, i);
                 }
             }
             return true;
@@ -115,9 +115,9 @@ public class FXMLMainFormController implements Initializable {
 
     private void MoveFace() {
         gridPaneBot.getChildren().clear();
-        ImageView imgv = game.GetFaceImage();
-        gridPaneBot.add(imgv,columnIndex, 1);
-        GridPane.setValignment(imgv, VPos.CENTER);
-        GridPane.setHalignment(imgv, HPos.CENTER);
+        //ImageView imgv = game.GetFaceImage();
+//        gridPaneBot.add(imgv,columnIndex, 1);
+//        GridPane.setValignment(imgv, VPos.CENTER);
+//        GridPane.setHalignment(imgv, HPos.CENTER);
     }
 }
