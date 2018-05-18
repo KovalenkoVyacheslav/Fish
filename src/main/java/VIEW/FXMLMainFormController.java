@@ -43,7 +43,7 @@ public class FXMLMainFormController implements Initializable {
         game = new GameController();
         ReWriteForm();
         ChangeOnMouseClicked();
-
+        System.out.println("test test test");
 
 //        time.schedule(new TimerTask() {
 //            @Override
