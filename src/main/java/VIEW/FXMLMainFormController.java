@@ -13,10 +13,12 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+
 import java.net.URL;
 import java.time.Period;
 import java.util.ResourceBundle;
@@ -25,9 +27,12 @@ import java.util.TimerTask;
 
 public class FXMLMainFormController implements Initializable {
 
-    Integer columnIndex;
+    Integer columnIndex=0;
     GameController game;
     Timer time = new Timer();
+
+    @FXML
+    private SplitPane Split_main;
 
     @FXML
     private GridPane gridPaneTop;
@@ -37,13 +42,21 @@ public class FXMLMainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Image img = MainFish.getView("src/main/resources/image/back.jpg");
 
+        BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(600,400,
+                false,false, false,false));
+
+        Split_main.setBackground(new Background(myBI));
+
+        //Split_main.setBackground(Background.);
 //        gridPaneTop.setAlignment(Pos.CENTER);
         gridPaneTop.setGridLinesVisible(true);
         game = new GameController();
         ReWriteForm();
         ChangeOnMouseClicked();
-        System.out.println("test test test");
+        gridPaneBot.setGridLinesVisible(true);
+        MoveFace();
 
 //        time.schedule(new TimerTask() {
 //            @Override
@@ -72,6 +85,8 @@ public class FXMLMainFormController implements Initializable {
                         bg = new ImageView(MainFish.getView("src/main/resources/image/empty.png"));
                     else
                         bg = game.getOurSea()[i][j].getImageViewFish();
+                    bg.setFitWidth(80);
+                    bg.setFitHeight(30);
                     gridPaneTop.add(bg, j, i);
                 }
             }
@@ -87,23 +102,22 @@ public class FXMLMainFormController implements Initializable {
             child.setOnMouseClicked((EventHandler) (Event event) -> {
                 columnIndex = GridPane.getColumnIndex(child);
                 game.setColumnIndex(columnIndex);
+                gridPaneTop.getChildren().clear();
                 ReWriteForm();
                 ChangeOnMouseClicked();
+                MoveFace();
+
             });
         }
     }
 
 
 
-
-
-
-
-//    private void MoveFace() {
-//        gridPaneBot.getChildren().clear();
-//        ImageView imgv = game.GetFaceImage();
-//        gridPaneBot.add(imgv,columnIndex, 1);
-//        GridPane.setValignment(imgv, VPos.CENTER);
-//        GridPane.setHalignment(imgv, HPos.CENTER);
-//    }
+    private void MoveFace() {
+        gridPaneBot.getChildren().clear();
+        ImageView imgv = game.GetFaceImage();
+        gridPaneBot.add(imgv,columnIndex, 1);
+        GridPane.setValignment(imgv, VPos.CENTER);
+        GridPane.setHalignment(imgv, HPos.CENTER);
+    }
 }

@@ -40,6 +40,12 @@ public class GameController {
  //   };
 
 
+    public ImageView GetFaceImage()
+    {
+        return new ImageView(MainFish.getView("src/main/resources/image/Man.png"));
+    }
+
+
     public void addNewWave ()
     {
         MainFish [] [] newSea = new MainFish[8][6];
