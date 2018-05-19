@@ -19,17 +19,11 @@ public class LargeFish extends MiddleFish {
             else {
                 setCounter(getCounter() + 1);
                 setT(getT().toUpperCase());
+                this.setImageFish(MainFish.getView("src/main/resources/image/EatenBig.jpg"));
             }
         }
         if (getCounter() == 2)
             return true;
         return false;
     }
-
-    //    @Override
-//    public void ChangeFishFace() {
-//        if (getCounter() == 1) {
-//            this.setImageFish(MainFish.getView("src/main/resources/image/EatenBig.jpg"));
-//        }
-//    }
 }

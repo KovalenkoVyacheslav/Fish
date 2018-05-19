@@ -28,14 +28,10 @@ public class MiddleFish extends MainFish {
         if(toEat.getTypeFish().ordinal() == 0) {
             counter++;
             setT(getT().toUpperCase());
+            this.setImageFish(MainFish.getView("src/main/resources/image/EatenMid.jpg"));
         }
         if (counter == 2)
             return true;
         return false;
     }
-//    public void ChangeFishFace() {
-//        if(counter == 1) {
-//            this.setImageFish(MainFish.getView("src/main/resources/image/EatenMid.jpg"));
-//        }
-//    }
 }
