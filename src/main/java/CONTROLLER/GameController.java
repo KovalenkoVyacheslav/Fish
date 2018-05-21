@@ -5,6 +5,7 @@ import MODELS.MainFish;
 import MODELS.MiddleFish;
 import MODELS.SmallFish;
 import javafx.scene.image.ImageView;
+
 import java.util.*;
 
 public class GameController {
@@ -148,7 +149,6 @@ public class GameController {
             return false;
         }
         if(index == -1) {
-            //sea[index][columnIndex] = null;
             sea[index + 1][columnIndex] = currentFish;
             currentFish = null;
             nextFish = null;
@@ -156,6 +156,7 @@ public class GameController {
         }
         if(currentFish != null) {
             nextFish = sea[index][columnIndex];
+
             return true;
         }
         return false;
@@ -169,9 +170,13 @@ public class GameController {
          if (nextFish.getTypeFish().ordinal() == 1) {
             if (((MiddleFish) nextFish).eatFish(currentFish))
                 sea[index][columnIndex] = null;
+            else if(currentFish.getTypeFish().ordinal() == 1 || currentFish.getTypeFish().ordinal() == 2)
+                sea[index + 1][columnIndex] = currentFish;
         } else if (nextFish.getTypeFish().ordinal() == 2) {
             if (((LargeFish) nextFish).eatFish(currentFish))
                 sea[index][columnIndex] = null;
+            else if(currentFish.getTypeFish().ordinal() == 0 || currentFish.getTypeFish().ordinal() == 2)
+                sea[index + 1][columnIndex] = currentFish;
         }
         else
             sea[index + 1][columnIndex] = currentFish;
