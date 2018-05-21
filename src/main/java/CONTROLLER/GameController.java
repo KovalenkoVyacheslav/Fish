@@ -9,12 +9,12 @@ import javafx.scene.image.ImageView;
 import java.util.*;
 
 public class GameController {
-    Integer columnIndex;
+    private Integer columnIndex;
 
     private MainFish currentFish; //   яку ловимо
     private MainFish nextFish; // кормити
 
-    MainFish[][] sea;
+    private MainFish[][] sea;
 
 
     public ImageView GetFaceImage()
@@ -22,35 +22,35 @@ public class GameController {
         return new ImageView(MainFish.getView("src/main/resources/image/Man.png"));
     }
 
-    public void addNewWave ()
-    {
-        MainFish [] [] newSea = new MainFish[8][6];
-
-        for(int i=1;i<8;i++)
-        {
-            for (int j = 0; j < 6; j++)
-            {
-                newSea[i][j] = sea[i-1][j];
-            }
-        }
-        MainFish[] fishes = new MainFish[6];
-
-        for(int i=0;i<6;i++)
-        {
-            if(i<2)
-                fishes[i] = new SmallFish();
-            else if (i>=2 && i<4)
-                fishes[i] = new MiddleFish();
-            else if (i>=6)
-                fishes[i] = new LargeFish();
-        }
-
-        for(int i = 0; i< 6; i++)
-        {
-            newSea[0][i] = fishes[new Random().nextInt(fishes.length)];
-        }
-        this.sea = newSea;
-    }
+//    public void addNewWave ()
+//    {
+//        MainFish [] [] newSea = new MainFish[8][6];
+//
+//        for(int i=1;i<8;i++)
+//        {
+//            for (int j = 0; j < 6; j++)
+//            {
+//                newSea[i][j] = sea[i-1][j];
+//            }
+//        }
+//        MainFish[] fishes = new MainFish[6];
+//
+//        for(int i=0;i<6;i++)
+//        {
+//            if(i<2)
+//                fishes[i] = new SmallFish();
+//            else if (i>=2 && i<4)
+//                fishes[i] = new MiddleFish();
+//            else if (i>=6)
+//                fishes[i] = new LargeFish();
+//        }
+//
+//        for(int i = 0; i< 6; i++)
+//        {
+//            newSea[0][i] = fishes[new Random().nextInt(fishes.length)];
+//        }
+//        this.sea = newSea;
+//    }
 
     public GameController() {
         sea = CreateSea();
@@ -59,7 +59,7 @@ public class GameController {
     public MainFish[][] getOurSea() {return  sea;}
 
 
-    public int[] randomization ()
+    private int[] randomization ()
     {
         final int N = 36;
         ArrayList<Integer> arrayList = new ArrayList<>(N);
@@ -72,29 +72,28 @@ public class GameController {
             }
         }
 
-        int[] randomArray = arrayList.stream().mapToInt(i -> i).toArray();
-        return randomArray;
+         return arrayList.stream().mapToInt(i -> i).toArray();
     }
 
-    public MainFish [] craetion()
+    private MainFish [] creation()
     {
         MainFish[] fishes = new MainFish[36];
         for(int i=0;i<36;i++)
         {
-            if(i<10)
+            if(i<12)
                 fishes[i] = new SmallFish();
-            else if (i>=12 && i<24)
+            else if (i<24)
                 fishes[i] = new MiddleFish();
-            else if (i>=24)
+            else
                 fishes[i] = new LargeFish();
         }
         return fishes;
     }
 
-    public MainFish[][] CreateSea()
+    private MainFish[][] CreateSea()
     {
         MainFish[][] field = new MainFish[8][6];
-        MainFish[] fishes = craetion();
+        MainFish[] fishes = creation();
         int[] arr = randomization();
 
         for(int i=0;i<8;i++)
@@ -162,7 +161,7 @@ public class GameController {
         return false;
     }
 
-    public void ChangeSeaV2() {
+    private void ChangeSeaV2() {
 
         int index = FindFish();
         if (!SetFish(index)) return;
