@@ -119,7 +119,7 @@ public class GameController {
         ChangeSeaV2();
     }
 
-    public int FindFish() {
+    private int FindFish() {
         for(int i = 7; i >= 0; i--) {
             if(!(sea[i][columnIndex] == null)) {
                 return i;
@@ -153,12 +153,11 @@ public class GameController {
             nextFish = null;
             return false;
         }
-        if(currentFish != null) {
+        else {
             nextFish = sea[index][columnIndex];
 
             return true;
         }
-        return false;
     }
 
     private void ChangeSeaV2() {
