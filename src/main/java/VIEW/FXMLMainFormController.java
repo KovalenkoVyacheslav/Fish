@@ -2,6 +2,7 @@ package VIEW;
 
 import CONTROLLER.GameController;
 import MODELS.MainFish;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,7 +27,7 @@ public class FXMLMainFormController implements Initializable {
 
     Integer columnIndex=0;
     GameController game;
-    //Timer time = new Timer();
+    Timer time = new Timer();
 
     @FXML
     private SplitPane Split_main;
@@ -38,6 +40,7 @@ public class FXMLMainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        NewLevel();
         Image img = MainFish.getView("src/main/resources/image/back.jpg");
 
         BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(600,400,
@@ -48,23 +51,35 @@ public class FXMLMainFormController implements Initializable {
         gridPaneTop.setAlignment(Pos.CENTER);
         game = new GameController();
         ReWriteForm();
-        ChangeOnMouseClicked();
-        MoveFace();
 
-//        time.schedule(new TimerTask() {
-//            @Override
-//            public void run() { //ПЕРЕЗАГРУЖАЕМ МЕТОД RUN В КОТОРОМ ДЕЛАЕТЕ ТО ЧТО ВАМ НАДО
-//
-//                        game.addNewWave();
-//                        ReWriteForm();
-//                    //time.cancel();
-//                   // return;
-//                }
-//        }, 10000, 10000); //(4000 - ПОДОЖДАТЬ ПЕРЕД НАЧАЛОМ В МИЛИСЕК, ПОВТОРЯТСЯ 4 СЕКУНДЫ (1 СЕК = 1000 МИЛИСЕК))
-//
+        MoveFace();
     }
 
-    private Boolean ReWriteForm() {
+    private void NewLevel()
+    {
+
+
+        time.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                game.addNewWave();
+                Platform.runLater(() -> ReWriteForm());
+            }
+        }, 60*1000, 60*1000);
+
+    }
+
+    public Boolean ReWriteForm() {
+        if(GameOver()) {
+            time.cancel();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("I have a message for You!");
+            alert.setContentText("You lost :(");
+            alert.showAndWait();
+        }
+
+        gridPaneTop.getChildren().clear();
         try {
             ImageView bg;
             for (int i = 0; i < gridPaneTop.getRowConstraints().size(); i++) {
@@ -80,6 +95,7 @@ public class FXMLMainFormController implements Initializable {
                     GridPane.setHalignment(bg, HPos.CENTER);
                 }
             }
+            ChangeOnMouseClicked();
             return true;
         } catch (Exception exp) {
             return false;
@@ -88,7 +104,7 @@ public class FXMLMainFormController implements Initializable {
 
     private void ChangeOnMouseClicked() {
         ObservableList<Node> nodes = gridPaneTop.getChildren();
-        for(Node child : nodes) {
+        for(Node child : nodes)
             child.setOnMouseClicked((EventHandler) (Event event) -> {
                 columnIndex = GridPane.getColumnIndex(child);
                 MoveFace();
@@ -97,15 +113,25 @@ public class FXMLMainFormController implements Initializable {
                 ReWriteForm();
                 ChangeOnMouseClicked();
             });
-        }
     }
 
 
     private void MoveFace() {
         gridPaneBot.getChildren().clear();
-        ImageView imgv = game.GetFaceImage();
-        gridPaneBot.add(imgv,columnIndex, 1);
-        GridPane.setValignment(imgv, VPos.CENTER);
-        GridPane.setHalignment(imgv, HPos.CENTER);
+        ImageView imageview = game.GetFaceImage();
+        gridPaneBot.add(imageview,columnIndex, 1);
+        GridPane.setValignment(imageview, VPos.CENTER);
+        GridPane.setHalignment(imageview, HPos.CENTER);
     }
+
+    public Boolean GameOver()
+    {
+        for(int i=0;i<6;i++) {
+            if (game.getOurSea()[7][i] != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

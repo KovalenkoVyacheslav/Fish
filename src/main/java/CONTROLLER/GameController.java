@@ -22,35 +22,35 @@ public class GameController {
         return new ImageView(MainFish.getView("src/main/resources/image/Man.png"));
     }
 
-//    public void addNewWave ()
-//    {
-//        MainFish [] [] newSea = new MainFish[8][6];
-//
-//        for(int i=1;i<8;i++)
-//        {
-//            for (int j = 0; j < 6; j++)
-//            {
-//                newSea[i][j] = sea[i-1][j];
-//            }
-//        }
-//        MainFish[] fishes = new MainFish[6];
-//
-//        for(int i=0;i<6;i++)
-//        {
-//            if(i<2)
-//                fishes[i] = new SmallFish();
-//            else if (i>=2 && i<4)
-//                fishes[i] = new MiddleFish();
-//            else if (i>=6)
-//                fishes[i] = new LargeFish();
-//        }
-//
-//        for(int i = 0; i< 6; i++)
-//        {
-//            newSea[0][i] = fishes[new Random().nextInt(fishes.length)];
-//        }
-//        this.sea = newSea;
-//    }
+    public void addNewWave ()
+    {
+        MainFish[][] field = new MainFish[8][6];
+        MainFish[] fishes = creation();
+        int[] arr = randomization();
+
+        for(int i=1;i<8;i++)
+        {
+            for(int j=0;j<6;j++)
+            {
+              field[i][j] = this.sea[i-1][j];
+            }
+        }
+
+        for(int i=0;i<6;i++)
+        {
+            field[0][i] = fishes[arr[i]];
+        }
+
+        this.sea = new MainFish[8][6];
+
+        for(int i=0;i<8;i++)
+        {
+            for(int j=0;j<6;j++)
+            {
+                this.sea[i][j] = field[i][j];
+            }
+        }
+    }
 
     public GameController() {
         sea = CreateSea();
