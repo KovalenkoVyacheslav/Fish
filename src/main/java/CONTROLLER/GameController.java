@@ -30,10 +30,7 @@ public class GameController {
 
         for(int i=1;i<8;i++)
         {
-            for(int j=0;j<6;j++)
-            {
-              field[i][j] = this.sea[i-1][j];
-            }
+            System.arraycopy(this.sea[i - 1], 0, field[i], 0, 6);
         }
 
         for(int i=0;i<6;i++)
@@ -45,10 +42,7 @@ public class GameController {
 
         for(int i=0;i<8;i++)
         {
-            for(int j=0;j<6;j++)
-            {
-                this.sea[i][j] = field[i][j];
-            }
+            System.arraycopy(field[i], 0, this.sea[i], 0, 6);
         }
     }
 
@@ -116,7 +110,7 @@ public class GameController {
 
     public void setColumnIndex(Integer columnInde) {
         this.columnIndex = columnInde;
-        ChangeSeaV2();
+        //ChangeSeaV2();
     }
 
     private int FindFish() {
@@ -143,9 +137,9 @@ public class GameController {
     private boolean SetFish(int index) {//індекс рядка
         if(currentFish == null && index != -1) {
             currentFish = sea[index][columnIndex];
-            sea[index][columnIndex] = null;
-            nextFish = null;
-            return false;
+                    sea[index][columnIndex] = null;
+                    nextFish = null;
+                return false;
         }
         if(index == -1) {
             sea[index + 1][columnIndex] = currentFish;
@@ -160,7 +154,7 @@ public class GameController {
         }
     }
 
-    private void ChangeSeaV2() {
+    public void ChangeSeaV2() {
 
         int index = FindFish();
         if (!SetFish(index)) return;
@@ -181,4 +175,5 @@ public class GameController {
         currentFish = null;
         nextFish = null;
     }
+
 }

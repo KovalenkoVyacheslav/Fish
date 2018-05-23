@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 public class LargeFish extends MiddleFish {
 
     public LargeFish() {
-        super("src/main/resources/image/large2.png", TypeFish.LARGE, "l");
+        super("src/main/resources/image/bigEmpty.png", TypeFish.LARGE, "l");
     }
 
     @Override
@@ -19,11 +19,9 @@ public class LargeFish extends MiddleFish {
             else {
                 setCounter(getCounter() + 1);
                 setT(getT().toUpperCase());
-                this.setImageFish(MainFish.getView("src/main/resources/image/EatenBig.jpg"));
+                this.setImageFish(MainFish.getView("src/main/resources/image/bigFull.png"));
             }
         }
-        if (getCounter() == 2)
-            return true;
-        return false;
+        return getCounter() == 2;
     }
 }

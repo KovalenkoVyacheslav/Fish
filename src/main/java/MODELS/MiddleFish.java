@@ -7,11 +7,11 @@ public class MiddleFish extends MainFish {
     private Integer counter;
 
     public MiddleFish() {
-        super("src/main/resources/image/middle2.png", TypeFish.MIDDLE, "m");
+        super("src/main/resources/image/midEmpty.png", TypeFish.MIDDLE, "m");
         counter = 0;
     }
 
-    public MiddleFish(String path, TypeFish typeFish, String type) {
+    MiddleFish(String path, TypeFish typeFish, String type) {
         super(path, typeFish, type);
         counter = 0;
     }
@@ -20,7 +20,7 @@ public class MiddleFish extends MainFish {
         return counter;
     }
 
-    public void setCounter(Integer counter) {
+    void setCounter(Integer counter) {
         this.counter = counter;
     }
 
@@ -28,10 +28,8 @@ public class MiddleFish extends MainFish {
         if(toEat.getTypeFish().ordinal() == 0) {
             counter++;
             setT(getT().toUpperCase());
-            this.setImageFish(MainFish.getView("src/main/resources/image/EatenMid.jpg"));
+            this.setImageFish(MainFish.getView("src/main/resources/image/midFull.png"));
         }
-        if (counter == 2)
-            return true;
-        return false;
+        return counter == 2;
     }
 }

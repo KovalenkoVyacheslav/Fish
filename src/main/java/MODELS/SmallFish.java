@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class SmallFish extends MainFish {
     public SmallFish() {
-        super("src/main/resources/image/small2.png", TypeFish.SMALL, "s");
+        super("src/main/resources/image/small.png", TypeFish.SMALL, "s");
     }
 
 
