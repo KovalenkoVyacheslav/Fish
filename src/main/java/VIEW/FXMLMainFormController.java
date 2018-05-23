@@ -2,6 +2,7 @@ package VIEW;
 
 import CONTROLLER.GameController;
 import MODELS.MainFish;
+import MODELS.Player;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -35,6 +36,7 @@ public class FXMLMainFormController implements Initializable {
     private GameController game;
     private Timer time = new Timer();
     AnchorPane pane;
+    private static Player player = new Player();
 
     @FXML
     private AnchorPane AnchorAp;
@@ -53,7 +55,8 @@ public class FXMLMainFormController implements Initializable {
         NewLevel();
         Image img = MainFish.getView("src/main/resources/image/default.jpg");
 
-        BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(785,688,
+        BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT, new BackgroundSize(785,700,
                 false,false, false,false));
 
         Split_main.setBackground(new Background(myBI));
@@ -135,7 +138,7 @@ public class FXMLMainFormController implements Initializable {
     private void MoveFace() {
         gridPaneBot.getChildren().clear();
         ImageView imageview = game.GetFaceImage();
-        gridPaneBot.add(imageview,columnIndex, 1);
+        gridPaneBot.add(imageview,columnIndex, 0);
         GridPane.setValignment(imageview, VPos.CENTER);
         GridPane.setHalignment(imageview, HPos.CENTER);
     }
@@ -185,4 +188,8 @@ public class FXMLMainFormController implements Initializable {
 //        }
 
 //    }
+
+    public static void SetName(String name) {
+        player.setNickName(name);
+    }
 }

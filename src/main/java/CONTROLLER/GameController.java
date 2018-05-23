@@ -1,9 +1,6 @@
 package CONTROLLER;
 
-import MODELS.LargeFish;
-import MODELS.MainFish;
-import MODELS.MiddleFish;
-import MODELS.SmallFish;
+import MODELS.*;
 import javafx.scene.image.ImageView;
 
 import java.util.*;
@@ -16,10 +13,9 @@ public class GameController {
 
     private MainFish[][] sea;
 
-
     public ImageView GetFaceImage()
     {
-        return new ImageView(MainFish.getView("src/main/resources/image/Man.png"));
+        return new ImageView(MainFish.getView("src/main/resources/image/beee.gif"));
     }
 
     public void addNewWave ()
@@ -48,6 +44,7 @@ public class GameController {
 
     public GameController() {
         sea = CreateSea();
+        //player = new Player();
     }
 
     public MainFish[][] getOurSea() {return  sea;}
@@ -175,5 +172,4 @@ public class GameController {
         currentFish = null;
         nextFish = null;
     }
-
 }
