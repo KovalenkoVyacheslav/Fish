@@ -3,9 +3,10 @@ package MODELS;
 public class Player {
 
     private String nickName;
-    private int score;
+    private Integer score;
 
     public Player() {
+        this.score = 0;
     }
 
     public Player(String nickName) {

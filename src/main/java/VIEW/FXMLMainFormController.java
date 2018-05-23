@@ -13,12 +13,12 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,11 +50,18 @@ public class FXMLMainFormController implements Initializable {
     @FXML
     private GridPane gridPaneBot;
 
+    @FXML
+    private Label lblNickName;
+
+    @FXML
+    private Label lblScore;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NewLevel();
         Image img = MainFish.getView("src/main/resources/image/default.jpg");
-
+        lblNickName.setText(player.getNickName());
+        lblScore.setText(String.valueOf(player.getScore()));
         BackgroundImage myBI= new BackgroundImage(img,BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, new BackgroundSize(785,700,
                 false,false, false,false));
@@ -81,6 +88,7 @@ public class FXMLMainFormController implements Initializable {
     }
 
     private Boolean ReWriteForm() {
+        lblScore.setText(String.valueOf(game.getScoreCounter()));
         if(GameOver()) {
             time.cancel();
             Alert alert = new Alert(Alert.AlertType.WARNING);

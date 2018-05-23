@@ -13,6 +13,12 @@ public class GameController {
 
     private MainFish[][] sea;
 
+    private Integer scoreCounter = 0;
+
+    public Integer getScoreCounter() {
+        return scoreCounter;
+    }
+
     public ImageView GetFaceImage()
     {
         return new ImageView(MainFish.getView("src/main/resources/image/beee.gif"));
@@ -157,13 +163,17 @@ public class GameController {
         if (!SetFish(index)) return;
 
          if (nextFish.getTypeFish().ordinal() == 1) {
-            if (((MiddleFish) nextFish).eatFish(currentFish))
+            if (((MiddleFish) nextFish).eatFish(currentFish)) {
                 sea[index][columnIndex] = null;
+                scoreCounter += 20;
+            }
             else if(currentFish.getTypeFish().ordinal() == 1 || currentFish.getTypeFish().ordinal() == 2)
                 sea[index + 1][columnIndex] = currentFish;
         } else if (nextFish.getTypeFish().ordinal() == 2) {
-            if (((LargeFish) nextFish).eatFish(currentFish))
+            if (((LargeFish) nextFish).eatFish(currentFish)) {
                 sea[index][columnIndex] = null;
+                scoreCounter += 30;
+            }
             else if(currentFish.getTypeFish().ordinal() == 0 || currentFish.getTypeFish().ordinal() == 2)
                 sea[index + 1][columnIndex] = currentFish;
         }
