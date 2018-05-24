@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="245.0" prefWidth="600.0" style="-fx-background-color: #00CCFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VIEW.FXMLStartController">
    <children>
       <JFXButton fx:id="btnExit" layoutX="75.0" layoutY="279.0" onAction="#OnActionExit" prefHeight="48.0" prefWidth="149.0" text="EXIT">
@@ -29,9 +28,9 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXTextField>
-      <Label layoutX="136.0" layoutY="28.0" prefHeight="73.0" prefWidth="328.0" text="CRAZY FISH" textFill="#f8ef40" textOverrun="WORD_ELLIPSIS">
+      <Label layoutX="105.0" layoutY="28.0" prefHeight="74.0" prefWidth="402.0" text="CRAZY FISH" textFill="#f8ef40" textOverrun="WORD_ELLIPSIS">
          <font>
-            <Font name="Bryndan Handwriting Book" size="64.0" />
+            <Font name="Arial" size="64.0" />
          </font>
       </Label>
    </children>
