@@ -38,7 +38,8 @@ public class FXMLStartController implements Initializable {
     void OnActionStart(ActionEvent event) throws IOException {
 
         FXMLMainFormController fxmlMainFormController = new FXMLMainFormController();
-        fxmlMainFormController.SetName(txtName.getText());
+        String name = txtName.getText().equals("") ? "Player" : txtName.getText();
+        fxmlMainFormController.SetName(name);
         Parent root = FXMLLoader.load(getClass().getResource("/FXMLMainForm.fxml"));
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
