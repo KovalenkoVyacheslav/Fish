@@ -1,6 +1,5 @@
 package VIEW;
 
-import CONTROLLER.GameController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -37,9 +36,8 @@ public class FXMLStartController implements Initializable {
     @FXML
     void OnActionStart(ActionEvent event) throws IOException {
 
-        FXMLMainFormController fxmlMainFormController = new FXMLMainFormController();
         String name = txtName.getText().equals("") ? "Player" : txtName.getText();
-        fxmlMainFormController.SetName(name);
+        FXMLMainFormController.SetName(name);
         Parent root = FXMLLoader.load(getClass().getResource("/FXMLMainForm.fxml"));
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
