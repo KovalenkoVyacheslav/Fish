@@ -47,7 +47,7 @@ public abstract class MainFish {
     /**
      * Get ImageView using path
      * @param path - path for image
-     * @return ImageView of image
+     * @return ImageView for image
      */
     public static Image getView (String path) {
         File file = new File(path);
