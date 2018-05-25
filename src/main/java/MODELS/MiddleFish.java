@@ -1,6 +1,10 @@
 package MODELS;
 
 import MODELS.ENUMS.TypeFish;
+
+/**
+ * Class implements middle fish, extends mainfish
+ */
 public class MiddleFish extends MainFish {
     private Integer counter;
 
@@ -14,14 +18,27 @@ public class MiddleFish extends MainFish {
         counter = 0;
     }
 
+    /**
+     * Get counter of small fish
+     * @return current eaten fish
+     */
     public Integer getCounter() {
         return counter;
     }
 
+    /**
+     * Set counter
+     * @param counter number of fish eaten
+     */
     void setCounter(Integer counter) {
         this.counter = counter;
     }
 
+    /**
+     * Method for eating fish
+     * @param toEat - eaten fish
+     * @return true - if the fish exploded, in other case - false
+     */
     public boolean eatFish(MainFish toEat) {
         if(toEat.getTypeFish().ordinal() == 0) {
             counter++;
