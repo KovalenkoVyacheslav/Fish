@@ -3,8 +3,6 @@ package VIEW;
 import CONTROLLER.GameController;
 import MODELS.MainFish;
 import MODELS.Player;
-import com.jfoenix.controls.JFXButton;
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,15 +31,14 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * class for operating vizualization of game process
+ */
 public class FXMLMainFormController implements Initializable {
 
     private Integer columnIndex=0;
     private GameController game;
-    AnchorPane pane;
     private static Player player = new Player();
-
-    @FXML
-    private AnchorPane AnchorAp;
 
     @FXML
     private SplitPane Split_main;
@@ -59,11 +55,21 @@ public class FXMLMainFormController implements Initializable {
     @FXML
     private Label lblScore;
 
-    @FXML
-    private JFXButton btnTryAgain;
+    private int period = 30;
 
-    private int period = 15;
+    /**
+     * Setter of player's name
+     * @param name any string
+     */
+    public static void SetName(String name) {
+        player.setNickName(name);
+    }
 
+    /**
+     * Method initialize our form
+     * @param location standart parameter
+     * @param resources standart parameter
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         game = new GameController();
@@ -83,6 +89,10 @@ public class FXMLMainFormController implements Initializable {
         MoveFace();
     }
 
+    /**
+     * Method responsible for pushing "Try again" button - starts a new game
+     * @param event event of Mouseclick on button
+     */
     @FXML
     void OnActionAgain(ActionEvent event) {
         Stage stage = (Stage) Split_main.getScene().getWindow();
@@ -94,24 +104,40 @@ public class FXMLMainFormController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert root != null;
         Scene scene = new Scene(root);
         stage.setScene(scene);
     }
 
+    /**
+     * Method starts timer, where new waves creating, depends on how much points player has
+     */
     private void startTimer() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 game.addNewWave();
                 Platform.runLater(() -> ReWriteForm());
-                if(game.getScoreCounter() >= 100) {
+                if(game.getScoreCounter() >= 500) {
+                    period = 1;
+                }
+                else if(game.getScoreCounter() >= 400) {
                     period = 5;
                 }
-                else if(game.getScoreCounter() >= 50) {
+                else if(game.getScoreCounter() >= 300) {
                     period = 10;
                 }
-                timer.cancel(); // cancel time
-                startTimer();   // start the time again with a new delay time
+                else if(game.getScoreCounter() >= 200) {
+                    period = 15;
+                }
+                else if(game.getScoreCounter() >= 100) {
+                    period = 20;
+                }
+                else if(game.getScoreCounter() >= 50) {
+                    period = 25;
+                }
+                timer.cancel();
+                startTimer();
             }
         }, period * 1000, period * 1000);
 
@@ -119,6 +145,10 @@ public class FXMLMainFormController implements Initializable {
             timer.cancel();
     }
 
+    /**
+     * Method rewrites form
+     * @return true = if all is good, false = if there is some exception
+     */
     private Boolean ReWriteForm() {
         lblScore.setText(String.valueOf(game.getScoreCounter()));
         if(GameOver()) {
@@ -132,6 +162,12 @@ public class FXMLMainFormController implements Initializable {
         gridPaneTop.getChildren().clear();
         try {
             ImageView bg;
+
+            if(!game.CheckField())
+            {
+                game.addNewWave();
+            }
+
             for (int i = 0; i < gridPaneTop.getRowConstraints().size(); i++) {
                 for (int j = 0; j < gridPaneTop.getColumnConstraints().size(); j++) {
                     if (game.getOurSea()[i][j] == null) {
@@ -146,13 +182,18 @@ public class FXMLMainFormController implements Initializable {
                     GridPane.setHalignment(bg, HPos.CENTER);
                 }
             }
+
             ChangeOnMouseClicked();
+
             return true;
         } catch (Exception exp) {
             return false;
         }
     }
 
+    /**
+     * Method changes the events of every node in GridPane
+     */
     private void ChangeOnMouseClicked() {
         ObservableList<Node> nodes = gridPaneTop.getChildren();
         for(Node child : nodes)
@@ -173,7 +214,9 @@ public class FXMLMainFormController implements Initializable {
             });
     }
 
-
+    /**
+     * Method is for moveng the "face" of player on bottom
+     */
     private void MoveFace() {
         gridPaneBot.getChildren().clear();
         ImageView imageview = game.GetFaceImage();
@@ -182,6 +225,10 @@ public class FXMLMainFormController implements Initializable {
         GridPane.setHalignment(imageview, HPos.CENTER);
     }
 
+    /**
+     * Method is for stoping the game if player lost (some fishes got bottom of the field)
+     * @return true = if fishes get bottom, false = if not
+     */
     private Boolean GameOver()
     {
         for(int i=0;i<6;i++) {
@@ -190,45 +237,5 @@ public class FXMLMainFormController implements Initializable {
             }
         }
         return false;
-    }
-
-//    private void Animate (Node child) {
-//        pane = new AnchorPane();
-//        pane.setMaxHeight(300);
-//        pane.setMaxWidth(600);
-//        pane.setMaxWidth(600);
-//        pane.setMaxHeight(300);
-//        int column = columnIndex;
-//        int row = 0;
-//        if(game.FindFish()!=-1)
-//            row = game.FindFish();
-//        MainFish fish = game.getOurSea()[row][column];
-//
-//        Bounds bounds = child.getBoundsInParent();
-//        ImageView view = fish.getImageViewFish();
-//
-//        view.setFitWidth(90);
-//        view.setFitHeight(30);
-//
-//        pane.getChildren().add(view);
-//        view.setX(bounds.getMinX());
-//        view.setY(bounds.getMaxY());
-//        pane.setOpacity(1);
-//        AnchorAp.getChildren().add(pane);
-//
-//
-//        TranslateTransition tt = new TranslateTransition(Duration.millis(5000), view);
-//        tt.setByY(300f);
-//        tt.play();
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-//    }
-
-    public static void SetName(String name) {
-        player.setNickName(name);
     }
 }

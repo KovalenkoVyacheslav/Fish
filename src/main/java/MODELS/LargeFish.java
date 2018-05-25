@@ -1,24 +1,20 @@
 package MODELS;
 
 import MODELS.ENUMS.TypeFish;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class LargeFish extends MiddleFish {
 
     public LargeFish() {
-        super("src/main/resources/image/bigEmpty.png", TypeFish.LARGE, "l");
+        super("src/main/resources/image/bigEmpty.png", TypeFish.LARGE);
     }
 
     @Override
     public boolean eatFish(MainFish toEat) {
         if(toEat.getTypeFish().ordinal() == 1) {
-            MiddleFish temp = (MiddleFish) toEat;
-            if(temp.getCounter() == 1)
+            if(((MiddleFish) toEat).getCounter() == 1)
                 return true;
             else {
                 setCounter(getCounter() + 1);
-                setT(getT().toUpperCase());
                 this.setImageFish(MainFish.getView("src/main/resources/image/bigFull.png"));
             }
         }

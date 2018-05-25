@@ -5,25 +5,50 @@ import javafx.scene.image.ImageView;
 
 import java.util.*;
 
+/**
+ * class for operating game process
+ */
 public class GameController {
+
     private Integer columnIndex;
-
-    private MainFish currentFish; //   яку ловимо
-    private MainFish nextFish; // кормити
-
+    private MainFish currentFish;
+    private MainFish nextFish;
     private MainFish[][] sea;
-
     private Integer scoreCounter = 0;
 
+    /**
+     * Constructor which initialize our matrix
+     */
+    public GameController() {
+        sea = CreateSea();
+    }
+
+    /**
+     * Getter of sea field
+     * @return matrix of sea
+     */
+    public MainFish[][] getOurSea() {return  sea;}
+
+    /**
+     * Getter of scoreCounter field
+     * @return scoreCounter
+     */
     public Integer getScoreCounter() {
         return scoreCounter;
     }
 
+    /**
+     * function to create ImageView of our fish in visual model
+     * @return ImageView with preseted picture
+     */
     public ImageView GetFaceImage()
     {
         return new ImageView(MainFish.getView("src/main/resources/image/beee.gif"));
     }
 
+    /**
+     * Method to create random new wave of fishes on top of matrix
+     */
     public void addNewWave ()
     {
         MainFish[][] field = new MainFish[8][6];
@@ -48,14 +73,10 @@ public class GameController {
         }
     }
 
-    public GameController() {
-        sea = CreateSea();
-        //player = new Player();
-    }
-
-    public MainFish[][] getOurSea() {return  sea;}
-
-
+    /**
+     * Method generates an array of random digits without repeat. Needed for initialization of the field sea
+     * @return array int
+     */
     private int[] randomization ()
     {
         final int N = 36;
@@ -68,10 +89,13 @@ public class GameController {
                 arrayList.add(i);
             }
         }
-
          return arrayList.stream().mapToInt(i -> i).toArray();
     }
 
+    /**
+     * Method generates array of fishes. Needed for initialiation of the field sea
+     * @return Array of fishes
+     */
     private MainFish [] creation()
     {
         MainFish[] fishes = new MainFish[36];
@@ -87,6 +111,10 @@ public class GameController {
         return fishes;
     }
 
+    /**
+     * Method creates fishes in 2 upper string of matrix
+     * @return matrix of fishes which ready to be placed on gamefield
+     */
     private MainFish[][] CreateSea()
     {
         MainFish[][] field = new MainFish[8][6];
@@ -110,41 +138,44 @@ public class GameController {
         return field;
     }
 
-
-    public void setColumnIndex(Integer columnInde) {
-        this.columnIndex = columnInde;
-        //ChangeSeaV2();
+    /**
+     * setter for columnIndex field
+     * @param columnIndex the only parameter
+     */
+    public void setColumnIndex(Integer columnIndex)
+    {
+        this.columnIndex = columnIndex;
     }
 
-    private int FindFish() {
-        for(int i = 7; i >= 0; i--) {
-            if(!(sea[i][columnIndex] == null)) {
+    /**
+     * Method for finding the row index of fish in bottom of column
+     * @return rowindex of fish or -1 if there is no fish in column
+     */
+    private int FindFish()
+    {
+        for(int i = 7; i >= 0; i--)
+            if(!(sea[i][columnIndex] == null))
                 return i;
-            }
-        }
         return -1;
     }
 
-    public void printSea() {
-        for(int i=0;i<8;i++) {
-            for(int j=0;j<6;j++) {
-                if(sea[i][j] == null)
-                    System.out.print(" | " + ' ' + " |");
-                else
-                    System.out.print(" | " + sea[i][j].getT() + " |");
-            }
-            System.out.println();
-        }
-    }
-
-    private boolean SetFish(int index) {//індекс рядка
-        if(currentFish == null && index != -1) {
+    /**
+     * Method is for setting fishes on field
+     * @param index - rowindex of fish
+     * @return false = if fish not found in column or its first click on fish,
+     * true = if fish setted on current position
+     */
+    private boolean SetFish(int index)
+    {
+        if(currentFish == null && index != -1)
+        {
             currentFish = sea[index][columnIndex];
                     sea[index][columnIndex] = null;
                     nextFish = null;
                 return false;
         }
-        if(index == -1) {
+        if(index == -1)
+        {
             sea[index + 1][columnIndex] = currentFish;
             currentFish = null;
             nextFish = null;
@@ -152,25 +183,32 @@ public class GameController {
         }
         else {
             nextFish = sea[index][columnIndex];
-
             return true;
         }
     }
 
-    public void ChangeSeaV2() {
-
+    /**
+     * Method is for changing our matrix depending on clicks on the field
+     */
+    public void ChangeSeaV2()
+    {
         int index = FindFish();
         if (!SetFish(index)) return;
 
-         if (nextFish.getTypeFish().ordinal() == 1) {
-            if (((MiddleFish) nextFish).eatFish(currentFish)) {
+        if (nextFish.getTypeFish().ordinal() == 1)
+        {
+            if (((MiddleFish) nextFish).eatFish(currentFish))
+            {
                 sea[index][columnIndex] = null;
                 scoreCounter += 20;
             }
             else if(currentFish.getTypeFish().ordinal() == 1 || currentFish.getTypeFish().ordinal() == 2)
                 sea[index + 1][columnIndex] = currentFish;
-        } else if (nextFish.getTypeFish().ordinal() == 2) {
-            if (((LargeFish) nextFish).eatFish(currentFish)) {
+        }
+        else if (nextFish.getTypeFish().ordinal() == 2)
+        {
+            if (((LargeFish) nextFish).eatFish(currentFish))
+            {
                 sea[index][columnIndex] = null;
                 scoreCounter += 30;
             }
@@ -179,7 +217,21 @@ public class GameController {
         }
         else
             sea[index + 1][columnIndex] = currentFish;
+
         currentFish = null;
         nextFish = null;
+    }
+
+    /**
+     * Method is for checking if there is fishes in matrix
+     * @return true = if there is, false = if there is not
+     */
+    public boolean CheckField ()
+    {
+        for(int i=0;i<8;i++)
+            for (int j = 0; j < 6; j++)
+                if (sea[i][j] != null)
+                    return true;
+        return false;
     }
 }

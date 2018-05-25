@@ -9,11 +9,6 @@ public class Player {
         this.score = 0;
     }
 
-    public Player(String nickName) {
-        this.nickName = nickName;
-        this.score = 0;
-    }
-
     public String getNickName() {
         return nickName;
     }
@@ -24,9 +19,5 @@ public class Player {
 
     public int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 }
