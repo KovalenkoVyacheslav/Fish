@@ -1,6 +1,7 @@
 package MODELS;
 
 import MODELS.ENUMS.TypeFish;
+import javafx.geometry.Bounds;
 
 /**
  * Class implements large fish, extends middle fish
